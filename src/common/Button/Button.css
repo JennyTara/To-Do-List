@@ -12,3 +12,11 @@
     background-color: #427c72;
     box-shadow: 1px 0 25px #0000004d;
 }
+.button:active {
+    transform: translate(0,5%);
+}
+.button:disabled {
+    background-color: #737776;
+    transform: none;
+}
+    

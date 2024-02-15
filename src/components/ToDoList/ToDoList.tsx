@@ -30,9 +30,9 @@ export default function ToDoList () {
                 <Button title="add" className="button" onClick={()=>addTask}></Button>
             </div>
             <div className="status-wrapper">
-                <Button title="All" className="button"></Button>
-                <Button title="Active" className="button"></Button>
-                <Button title="Completed" className="button"></Button>
+                <Button title="All" className="button" disabled={true}></Button>
+                <Button title="Active" className="button" disabled={true}></Button>
+                <Button title="Completed" className="button" disabled={true}></Button>
             </div>  
             <div className="tasks">
             
