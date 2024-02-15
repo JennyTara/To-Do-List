@@ -1,0 +1,32 @@
+.add-item-wrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width:80%;
+    
+}
+.add-item__input {
+    border: none;
+    outline: none;
+    padding: 15px;
+    border-radius: 5px;
+    height: 30px;
+    flex-basis: 80%;
+   
+}
+.add-item-wrapper .button {
+    padding: 0 30px;
+    flex-grow: 20%;
+    
+}
+
+.status-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width:80%;
+    
+}
+.status-wrapper .button {
+    width: 115px;
+}
