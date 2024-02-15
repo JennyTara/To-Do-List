@@ -5,12 +5,13 @@ import './ToDoList.css'
 
 export default function ToDoList () {
     const [todos, setTodos] = useState<string[]>([])
-    const [inputValue, setInputValue] = useState('')
+    const [inputValue, setInputValue] = useState<string>('')
 
 
-    function addTask (): void {
-        
-        setTodos([...todos, inputValue])
+    function addTask (e: any): void {
+        if (inputValue) {
+            setTodos([...todos, inputValue])
+        }
         setInputValue('')
     }
     function handleChange (e:any): void {
@@ -22,26 +23,23 @@ export default function ToDoList () {
         setTodos(newTodos)
     }
 
-
-
-
     return (
         <>
             <div className="add-item-wrapper">
                 <input type="text" value={inputValue} onChange={handleChange} placeholder="Create a new ToDo..." className="add-item__input"></input>
-                <Button title="add" onClick={addTask}></Button>
+                <Button title="add" className="button" onClick={()=>addTask}></Button>
             </div>
             <div className="status-wrapper">
-                <Button title="All"></Button>
-                <Button title="Active"></Button>
-                <Button title="Completed"></Button>
+                <Button title="All" className="button"></Button>
+                <Button title="Active" className="button"></Button>
+                <Button title="Completed" className="button"></Button>
             </div>  
             <div className="tasks">
             
                     {todos.map((todo: string, index: number) => (
                         <div>
                             <input key={todo[index]} type="checkbox">{todo}</input>
-                            <Button title="Delete" onClick={handleDelete(index)}></Button>
+                            <Button title="Delete" className="button" onClick={()=> handleDelete(index)}></Button>
                         </div>
                     ))}
             

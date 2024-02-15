@@ -2,7 +2,7 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    width:80%;
+    width: 80%;
     
 }
 .add-item__input {
@@ -16,15 +16,13 @@
 }
 .add-item-wrapper .button {
     padding: 0 30px;
-    flex-grow: 20%;
-    
 }
 
 .status-wrapper {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    width:80%;
+    width: 80%;
     
 }
 .status-wrapper .button {
