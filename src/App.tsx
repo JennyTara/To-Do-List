@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import ToDoList from './components/ToDoList/ToDoList';
+import ToDoList from './ToDoList';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <div className="todo-title">
             <h1>ToDo List</h1>
         </div>
-        <ToDoList></ToDoList>
+        <ToDoList />
       </div>
     </div>
   );
