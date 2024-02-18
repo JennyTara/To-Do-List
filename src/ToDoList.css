@@ -1,8 +1,6 @@
 .add-item-wrapper {
     display: flex;
     gap: 10px;
-    justify-content: center;
-    width: 80%;
     
 }
 .add-item__input {
@@ -21,10 +19,21 @@
 .status-wrapper {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
-    width: 80%;
+    gap:10px;
     
 }
 .status-wrapper .button {
     width: 115px;
+}
+.tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+.tasks__item {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+ 
 }

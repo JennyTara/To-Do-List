@@ -37,8 +37,8 @@ export default function ToDoList() {
             <div className="tasks">
 
                 {todos.map((todo: string, index: number) => (
-                    <div key={`myToDo-${index}`}>
-                        <input type="text" value={todo} />
+                    <div className="tasks__item" key={`myToDo-${index}`}>
+                        <p>{index+1}. {todo}</p>
                         <Button title="Delete" className="button" onClick={() => handleDelete(index)} />
                     </div>
                 ))}
