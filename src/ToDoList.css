@@ -1,39 +1,60 @@
 .add-item-wrapper {
-    display: flex;
-    gap: 10px;
-    
+  display: flex;
+  gap: 10px;
 }
+
 .add-item__input {
-    border: none;
-    outline: none;
-    padding: 15px;
-    border-radius: 5px;
-    height: 30px;
-    flex-basis: 80%;
-   
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  height: 30px;
+  flex-basis: 80%;
+  padding-inline: 15px;
 }
+
+.add-item__input:focus {
+  outline: 2px solid #464242;
+}
+
+.add-item__input.error {
+  outline: 2px solid #e74444;
+}
+
 .add-item-wrapper .button {
-    padding: 0 30px;
+  padding: 0 30px;
 }
 
 .status-wrapper {
-    display: flex;
-    justify-content: space-between;
-    gap:10px;
-    
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
+
 .status-wrapper .button {
-    width: 115px;
+  width: 115px;
 }
+
 .tasks {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
 .tasks__item {
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
- 
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tasks__checkbox-text {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  word-wrap: break-word;
+}
+
+.tasks__text.completed {
+  text-decoration: line-through;
+  color: #636353;
 }

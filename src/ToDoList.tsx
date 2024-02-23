@@ -3,47 +3,56 @@ import { useState } from 'react'
 import Button from './components/Button';
 import './ToDoList.css'
 
+
+
 export default function ToDoList() {
-    const [todos, setTodos] = useState<string[]>([])
-    const [inputValue, setInputValue] = useState<string>('')
+  const [todos, setTodos] = useState<string[]>([])
+  const [inputValue, setInputValue] = useState<string>('')
+  const [checkedItem, setCheckedItem] = useState<boolean>(false)
+  const [isCompleted, setCompleted] = useState<boolean>(false)
 
 
-    function addTask(): void {
-        if (inputValue) {
-            setTodos([...todos, inputValue])
-        }
-        setInputValue('')
+  function addTask(): void {
+    if (inputValue.trim() !== '') {
+      setCheckedItem(false)
+      setTodos([...todos, inputValue])
     }
-    function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-        setInputValue(event.target.value)
-    }
-    function handleDelete(index: number): void {
-        const newTodos = [...todos]
-        newTodos.slice(index, 1)
-        setTodos(newTodos)
-    }
+    setInputValue('')
+  }
+  function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>): void {
+    setInputValue(event.target.value)
+  }
+  function handleChangeCheckbox(): void {
+    setCheckedItem(!checkedItem)
+    setCompleted(!isCompleted)
+  }
+  function handleDelete(index: number): void {
+    setTodos(todos.filter(item => todos.indexOf(item) !== index))
+  }
 
-    return (
-        <>
-            <div className="add-item-wrapper">
-                <input type="text" value={inputValue} onChange={handleChange} placeholder="Create a new ToDo..." className="add-item__input" />
-                <Button title="add" className="button" onClick={addTask} />
+  return (
+    <>
+      <div className="add-item-wrapper">
+        <input type="text" value={inputValue} onChange={handleChangeInput} className="add-item__input" placeholder="Create a new ToDo..." />
+        <Button title="add" className="button" onClick={addTask} />
+      </div>
+      <div className="status-wrapper">
+        <Button title="All" className="button" disabled={true} />
+        <Button title="Active" className="button" disabled={true} />
+        <Button title="Completed" className="button" disabled={true} />
+      </div>
+      <div className="tasks">
+        {todos.map((todo: string, index: number) => (
+          <label key={`myToDo-${index}`} className="tasks__item">
+            <div className="tasks__checkbox-text" >
+              <input className="tasks__checkbox" type="checkbox" checked={checkedItem} onChange={handleChangeCheckbox} />
+              <div className={isCompleted ? "tasks__text completed" : "tasks__text"}>{todo}</div>
             </div>
-            <div className="status-wrapper">
-                <Button title="All" className="button" disabled={true} />
-                <Button title="Active" className="button" disabled={true} />
-                <Button title="Completed" className="button" disabled={true} />
-            </div>
-            <div className="tasks">
+            <Button title="Delete" className="button" onClick={() => handleDelete(index)} />
+          </label>
+        ))}
 
-                {todos.map((todo: string, index: number) => (
-                    <div className="tasks__item" key={`myToDo-${index}`}>
-                        <p>{index+1}. {todo}</p>
-                        <Button title="Delete" className="button" onClick={() => handleDelete(index)} />
-                    </div>
-                ))}
-
-            </div>
-        </>
-    )
+      </div>
+    </>
+  )
 }
