@@ -1,6 +1,6 @@
 .add-item-wrapper {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
 }
 
 .add-item__input {
@@ -8,7 +8,7 @@
   outline: none;
   border-radius: 5px;
   height: 30px;
-  flex-basis: 80%;
+  flex-basis: 75%;
   padding-inline: 15px;
 }
 
@@ -17,11 +17,12 @@
 }
 
 .add-item__input.error {
-  outline: 2px solid #e74444;
+  outline: 2px solid #b33e59;
 }
 
 .add-item-wrapper .button {
   padding: 0 30px;
+
 }
 
 .status-wrapper {
@@ -57,4 +58,11 @@
 .tasks__text.completed {
   text-decoration: line-through;
   color: #636353;
+}
+
+.input-error {
+  font-weight: 400;
+  color: #b33e59;
+  margin-top: -15px;
+  height: 20px;
 }
