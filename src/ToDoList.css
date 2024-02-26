@@ -1,3 +1,38 @@
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tasks__item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tasks__checkbox-text {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  word-wrap: break-word;
+}
+
+.tasks__text.completed {
+  text-decoration: line-through;
+  color: #636353;
+}
+
+.status-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.status-wrapper .button {
+  width: 115px;
+}
+
 .add-item-wrapper {
   display: flex;
   justify-content: space-between;
@@ -22,42 +57,6 @@
 
 .add-item-wrapper .button {
   padding: 0 30px;
-
-}
-
-.status-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.status-wrapper .button {
-  width: 115px;
-}
-
-.tasks {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tasks__item {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.tasks__checkbox-text {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  word-wrap: break-word;
-}
-
-.tasks__text.completed {
-  text-decoration: line-through;
-  color: #636353;
 }
 
 .input-error {
