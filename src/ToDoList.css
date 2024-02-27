@@ -22,6 +22,9 @@
   text-decoration: line-through;
   color: #636353;
 }
+.tasks {
+  text-align: center;
+}
 
 .status-wrapper {
   display: flex;
