@@ -25,3 +25,6 @@
   background-color: #737776;
   transform: none;
 }
+.button.active-filter {
+  border: 1px solid #eae46a;
+}
