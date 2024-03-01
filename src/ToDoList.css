@@ -25,6 +25,10 @@
 .tasks {
   text-align: center;
 }
+.tasks-buttons {
+  display: flex;
+  gap: 5px;
+}
 
 .status-wrapper {
   display: flex;
