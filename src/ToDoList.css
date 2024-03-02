@@ -7,14 +7,16 @@
 .tasks__item {
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
 }
 
 .tasks__checkbox-text {
   display: flex;
   gap: 15px;
-  align-items: center;
+  align-items: baseline;
+}
+.tasks__text {
   word-wrap: break-word;
 }
 
@@ -22,7 +24,7 @@
   text-decoration: line-through;
   color: #636353;
 }
-.tasks {
+.tasks__no-task {
   text-align: center;
 }
 .tasks-buttons {
@@ -71,4 +73,7 @@
   color: #b33e59;
   margin-top: -15px;
   height: 20px;
+}
+.tasks-buttons .button {
+  min-width: 68px;
 }

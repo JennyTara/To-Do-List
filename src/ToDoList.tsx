@@ -22,6 +22,8 @@ export default function ToDoList() {
   const [showTextEror, setShowTextError] = useState<string>("");
   const [disableStatusButton, setDisableStatusButton] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>("all");
+  const [editingItem, setEditingItem] = useState<number | undefined>(undefined);
+  const [inputValueEditing, setInputValueEditing] = useState<string>("");
 
   function addTask(): void {
     if (inputValue.trim() !== "" && inputValue.length <= 150) {
@@ -68,10 +70,29 @@ export default function ToDoList() {
 
   function handleDelete(id: number): void {
     setTodos(todos.filter((item) => item.index !== id));
-    console.log(todos);
     if (todos.length == 1) {
       setDisableStatusButton(true);
     }
+  }
+  function handleChangeInputEditing(
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void {
+    setInputValueEditing(event.target.value);
+  }
+  function handleEditingItem(id: number, inputTitle: string): void {
+    setEditingItem(id);
+    setInputValueEditing(inputTitle);
+  }
+  function handleEditingSave(id: number): void {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.index === id) {
+          todo.title = inputValueEditing;
+        }
+        return todo;
+      })
+    );
+    setEditingItem(undefined);
   }
 
   return (
@@ -113,7 +134,7 @@ export default function ToDoList() {
       </div>
       <div className="tasks">
         {!todos.length ? (
-          <div>There is no task to do...</div>
+          <div className="tasks__no-task">There is no task to do...</div>
         ) : (
           todos
             .filter((todo) => {
@@ -127,29 +148,69 @@ export default function ToDoList() {
             })
             .map((todo) => (
               <div key={`myToDo-${todo.index}`} className="tasks__item">
-                <div className="tasks__checkbox-text">
-                  <input
-                    className="tasks__checkbox"
-                    type="checkbox"
-                    checked={todo.isCompleted}
-                    onChange={() => handleChangeCheckbox(todo.index)}
-                  />
-                  <div
-                    className={
-                      todo.isCompleted ? "tasks__text completed" : "tasks__text"
-                    }
-                  >
-                    {todo.title}
-                  </div>
-                </div>
-                <div className="tasks-buttons">
-                  <Button title="Edit" className="button" />
-                  <Button
-                    title="Delete"
-                    className="button"
-                    onClick={() => handleDelete(todo.index)}
-                  />
-                </div>
+                {editingItem == todo.index ? (
+                  <>
+                    <div className="tasks__checkbox-text">
+                      <input
+                        className="tasks__checkbox"
+                        type="checkbox"
+                        checked={todo.isCompleted}
+                        onChange={() => handleChangeCheckbox(todo.index)}
+                      />
+                      <input
+                        type="text"
+                        value={inputValueEditing}
+                        onChange={handleChangeInputEditing}
+                      />
+                    </div>
+                    <div className="tasks-buttons">
+                      <Button
+                        title="Save"
+                        onClick={() => handleEditingSave(todo.index)}
+                        className="button"
+                      />
+                      <Button
+                        title="Cancel"
+                        className="button"
+                        onClick={() => setEditingItem(undefined)}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="tasks__checkbox-text">
+                      <input
+                        className="tasks__checkbox"
+                        type="checkbox"
+                        checked={todo.isCompleted}
+                        onChange={() => handleChangeCheckbox(todo.index)}
+                      />
+                      <div
+                        className={
+                          todo.isCompleted
+                            ? "tasks__text completed"
+                            : "tasks__text"
+                        }
+                      >
+                        {todo.title}
+                      </div>
+                    </div>
+                    <div className="tasks-buttons">
+                      <Button
+                        title="Edit"
+                        onClick={() =>
+                          handleEditingItem(todo.index, todo.title)
+                        }
+                        className="button"
+                      />
+                      <Button
+                        title="Delete"
+                        className="button"
+                        onClick={() => handleDelete(todo.index)}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             ))
         )}
