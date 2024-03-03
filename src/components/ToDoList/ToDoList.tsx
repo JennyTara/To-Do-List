@@ -1,22 +1,21 @@
 import React from "react";
 import { useState } from "react";
-import Button from "./components/Button";
+import Button from "../Button/Button";
 import "./ToDoList.css";
+import { ITodoList } from "../../App";
 
-interface TodoList {
-  index: number;
-  title: string;
-  isCompleted: boolean;
-}
 let countId = 0;
 // const initialTodos = [
 //   { index: 1, title: "First task", isCompleted: false },
 //   { index: 2, title: "Second task", isCompleted: false },
 //   { index: 3, title: "Third task", isCompleted: false }
 // ]
+interface ITodos {
+  todos: ITodoList[];
+  setTodos: React.Dispatch<React.SetStateAction<ITodoList[]>>;
+}
 
-export default function ToDoList() {
-  const [todos, setTodos] = useState<TodoList[]>([]);
+export default function ToDoList({ todos, setTodos }: ITodos) {
   const [inputValue, setInputValue] = useState<string>("");
   const [inputError, setInputError] = useState<boolean>(false);
   const [showTextEror, setShowTextError] = useState<string>("");
@@ -24,6 +23,7 @@ export default function ToDoList() {
   const [filter, setFilter] = useState<string>("all");
   const [editingItem, setEditingItem] = useState<number | undefined>(undefined);
   const [inputValueEditing, setInputValueEditing] = useState<string>("");
+  const [inputEditError, setInputEditError] = useState<boolean>(false);
 
   function addTask(): void {
     if (inputValue.trim() !== "" && inputValue.length <= 150) {
@@ -43,7 +43,6 @@ export default function ToDoList() {
       }
     }
     setInputValue("");
-    console.log(todos);
   }
   function handleSubmitInputByEnter(
     event: React.KeyboardEvent<HTMLInputElement>
@@ -84,15 +83,20 @@ export default function ToDoList() {
     setInputValueEditing(inputTitle);
   }
   function handleEditingSave(id: number): void {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.index === id) {
-          todo.title = inputValueEditing;
-        }
-        return todo;
-      })
-    );
-    setEditingItem(undefined);
+    if (inputValueEditing.trim() !== "" && inputValueEditing.length <= 150) {
+      setTodos(
+        todos.map((todo) => {
+          if (todo.index === id) {
+            todo.title = inputValueEditing;
+          }
+          return todo;
+        })
+      );
+      setInputEditError(false);
+      setEditingItem(undefined);
+    } else {
+      setInputEditError(true);
+    }
   }
 
   return (
@@ -158,6 +162,11 @@ export default function ToDoList() {
                         onChange={() => handleChangeCheckbox(todo.index)}
                       />
                       <input
+                        className={
+                          inputEditError
+                            ? "tasks__edit-input error"
+                            : "tasks__edit-input"
+                        }
                         type="text"
                         value={inputValueEditing}
                         onChange={handleChangeInputEditing}

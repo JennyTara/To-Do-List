@@ -47,20 +47,28 @@
   justify-content: space-between;
 }
 
-.add-item__input {
+.add-item__input,
+.tasks__edit-input {
   border: none;
   outline: none;
+  padding-inline: 15px;
   border-radius: 5px;
   height: 30px;
+}
+.add-item__input {
   flex-basis: 75%;
-  padding-inline: 15px;
+}
+.tasks__edit-input {
+  height: 25px;
 }
 
-.add-item__input:focus {
+.add-item__input:focus,
+.tasks__edit-input:focus {
   outline: 2px solid #464242;
 }
 
-.add-item__input.error {
+.add-item__input.error,
+.tasks__edit-input.error {
   outline: 2px solid #b33e59;
 }
 
@@ -75,5 +83,5 @@
   height: 20px;
 }
 .tasks-buttons .button {
-  min-width: 68px;
+  min-width: 80px;
 }
