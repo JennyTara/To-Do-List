@@ -14,6 +14,12 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
+  // useEffect(() => {
+  //   const storedTodos = JSON.parse(localStorage.getItem('todos') || "null");
+  //   if (storedTodos) {
+  //     setTodos(storedTodos);
+  //   }
+  // }, []);
   return (
     <div className="app-wrapper">
       <div className="app">
