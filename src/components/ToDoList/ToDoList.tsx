@@ -1,10 +1,11 @@
-import React from "react";
-import { useState } from "react";
-import Button from "../Button/Button";
-import "./ToDoList.css";
-import { ITodoList } from "../../App";
+import React from 'react';
+import { useState } from 'react';
+import Button from '../Button/Button';
+import './ToDoList.css';
+import { ITodoList } from '../../App';
+import { MY_SUPER_MEGA_MAGIC_NUMBER } from '../constants';
 
-let countId = 0;
+
 // const initialTodos = [
 //   { index: 1, title: "First task", isCompleted: false },
 //   { index: 2, title: "Second task", isCompleted: false },
@@ -13,49 +14,58 @@ let countId = 0;
 interface ITodos {
   todos: ITodoList[];
   setTodos: React.Dispatch<React.SetStateAction<ITodoList[]>>;
+  storedTodos:ITodoList[];
+}
+enum Filters {
+  All = 'all',
+  Active = 'active',
+  Completed = 'completed',
 }
 
-export default function ToDoList({ todos, setTodos }: ITodos) {
-  const [inputValue, setInputValue] = useState<string>("");
+export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
+  const [inputValue, setInputValue] = useState<string>('');
   const [inputError, setInputError] = useState<boolean>(false);
-  const [showTextEror, setShowTextError] = useState<string>("");
-  const [disableStatusButton, setDisableStatusButton] = useState<boolean>(true);
-  const [filter, setFilter] = useState<string>("all");
-  const [editingItem, setEditingItem] = useState<number | undefined>(undefined);
-  const [inputValueEditing, setInputValueEditing] = useState<string>("");
+  const [showTextEror, setShowTextError] = useState<string>('');
+  const [disableStatusButton, setDisableStatusButton] = useState<boolean>(storedTodos === null ? true : false);
+  const [filter, setFilter] = useState<Filters>(Filters.All);
+  const [editingItem, setEditingItem] = useState<number | null>(null);
+  const [inputValueEditing, setInputValueEditing] = useState<string>('');
   const [inputEditError, setInputEditError] = useState<boolean>(false);
 
   function addTask(): void {
-    if (inputValue.trim() !== "" && inputValue.length <= 150) {
+    if (inputValue.trim() !== '' && inputValue.length <= MY_SUPER_MEGA_MAGIC_NUMBER) {
       setTodos([
         ...todos,
-        { index: countId++, title: inputValue, isCompleted: false },
+        { index: Math.random(), title: inputValue, isCompleted: false },
       ]);
-      if (todos.length == 0) {
+      if (todos.length === 0) {
         setDisableStatusButton(false);
       }
     } else {
       setInputError(true);
-      if (inputValue.trim() == "") {
-        setShowTextError("*You must write something!");
+      if (inputValue.trim() === '') {
+        setShowTextError('*You must write something!');
       } else {
-        setShowTextError("*Your ToDo is too long, please shorten it!");
+        setShowTextError('*Your ToDo is too long, please shorten it!');
       }
     }
-    setInputValue("");
+    setInputValue('');
   }
+
   function handleSubmitInputByEnter(
     event: React.KeyboardEvent<HTMLInputElement>
   ): void {
-    if (event.code === "Enter") {
+    if (event.code === 'Enter') {
       addTask();
     }
   }
+
   function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>): void {
     setInputError(false);
-    setShowTextError("");
+    setShowTextError('');
     setInputValue(event.target.value);
   }
+
   function handleChangeCheckbox(id: number): void {
     setTodos(
       todos.map((todo) => {
@@ -69,21 +79,24 @@ export default function ToDoList({ todos, setTodos }: ITodos) {
 
   function handleDelete(id: number): void {
     setTodos(todos.filter((item) => item.index !== id));
-    if (todos.length == 1) {
+    if (todos.length === 1) {
       setDisableStatusButton(true);
     }
   }
+
   function handleChangeInputEditing(
     event: React.ChangeEvent<HTMLInputElement>
   ): void {
     setInputValueEditing(event.target.value);
   }
+
   function handleEditingItem(id: number, inputTitle: string): void {
     setEditingItem(id);
     setInputValueEditing(inputTitle);
   }
+
   function handleEditingSave(id: number): void {
-    if (inputValueEditing.trim() !== "" && inputValueEditing.length <= 150) {
+    if (inputValueEditing.trim() !== '' && inputValueEditing.length <= MY_SUPER_MEGA_MAGIC_NUMBER) {
       setTodos(
         todos.map((todo) => {
           if (todo.index === id) {
@@ -93,12 +106,11 @@ export default function ToDoList({ todos, setTodos }: ITodos) {
         })
       );
       setInputEditError(false);
-      setEditingItem(undefined);
+      setEditingItem(null);
     } else {
       setInputEditError(true);
     }
   }
-
   return (
     <>
       <div className="add-item-wrapper">
@@ -118,41 +130,41 @@ export default function ToDoList({ todos, setTodos }: ITodos) {
         <Button
           title="All"
           className={
-            todos.length && filter == "all" ? "button active-filter" : "button"
+            !!todos.length && filter === Filters.All ? "button active-filter" : "button"
           }
-          onClick={() => setFilter("all")}
+          onClick={() => setFilter(Filters.All)}
           disabled={disableStatusButton}
         />
         <Button
           title="Active"
-          className={filter == "active" ? "button active-filter" : "button"}
-          onClick={() => setFilter("active")}
+          className={filter === Filters.Active ? "button active-filter" : "button"}
+          onClick={() => setFilter(Filters.Active)}
           disabled={disableStatusButton}
         />
         <Button
           title="Completed"
-          className={filter == "completed" ? "button active-filter" : "button"}
-          onClick={() => setFilter("completed")}
+          className={filter === Filters.Completed ? "button active-filter" : "button"}
+          onClick={() => setFilter(Filters.Completed)}
           disabled={disableStatusButton}
         />
       </div>
       <div className="tasks">
         {!todos.length ? (
-          <div className="tasks__no-task">There is no task to do...</div>
+          <div className="tasks__no-task">There is no task to do&hellip;</div>
         ) : (
           todos
             .filter((todo) => {
-              if (filter === "all") {
+              if (filter === Filters.All) {
                 return todos;
-              } else if (filter === "active") {
+              } else if (filter === Filters.Active) {
                 return !todo.isCompleted;
-              } else if (filter === "completed") {
+              } else if (filter === Filters.Completed) {
                 return todo.isCompleted;
               }
             })
             .map((todo) => (
               <div key={`myToDo-${todo.index}`} className="tasks__item">
-                {editingItem == todo.index ? (
+                {editingItem === todo.index ? (
                   <>
                     <div className="tasks__checkbox-text">
                       <input
@@ -181,7 +193,7 @@ export default function ToDoList({ todos, setTodos }: ITodos) {
                       <Button
                         title="Cancel"
                         className="button"
-                        onClick={() => setEditingItem(undefined)}
+                        onClick={() => setEditingItem(null)}
                       />
                     </div>
                   </>
