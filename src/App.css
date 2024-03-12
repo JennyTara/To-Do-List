@@ -1,3 +1,8 @@
+:root {
+  --todo-bgc-color: #66bdaf;
+  --todo-title-color: #ffffff;
+}
+
 .app-wrapper {
   display: flex;
   justify-content: center;
@@ -8,7 +13,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #66bdaf;
+  background-color: var(--todo-bgc-color);
   width: 500px;
   padding: 40px;
   margin-top: 20px;
@@ -18,5 +23,5 @@
 .todo-title h1 {
   text-align: center;
   font-size: 30px;
-  color: #ffffff;
+  color: var(--todo-title-color);
 }

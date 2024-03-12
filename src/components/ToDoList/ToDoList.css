@@ -1,3 +1,9 @@
+:root {
+  --error-color-text: #b33e59;
+  --input-focus-color: #464242;
+  --text-completed-color: #636353;
+}
+
 .tasks {
   display: flex;
   flex-direction: column;
@@ -16,17 +22,20 @@
   gap: 15px;
   align-items: baseline;
 }
+
 .tasks__text {
   word-wrap: break-word;
 }
 
 .tasks__text.completed {
   text-decoration: line-through;
-  color: #636353;
+  color: var(--text-completed-color);
 }
+
 .tasks__no-task {
   text-align: center;
 }
+
 .tasks-buttons {
   display: flex;
   gap: 5px;
@@ -55,21 +64,23 @@
   border-radius: 5px;
   height: 30px;
 }
+
 .add-item__input {
   flex-basis: 75%;
 }
+
 .tasks__edit-input {
   height: 25px;
 }
 
 .add-item__input:focus,
 .tasks__edit-input:focus {
-  outline: 2px solid #464242;
+  outline: 2px solid var(--input-focus-color);
 }
 
 .add-item__input.error,
 .tasks__edit-input.error {
-  outline: 2px solid #b33e59;
+  outline: 2px solid var(--error-color-text);
 }
 
 .add-item-wrapper .button {
@@ -78,10 +89,11 @@
 
 .input-error {
   font-weight: 400;
-  color: #b33e59;
+  color: var(--error-color-text);
   margin-top: -15px;
   height: 20px;
 }
+
 .tasks-buttons .button {
   min-width: 80px;
 }

@@ -1,30 +1,39 @@
+:root {
+  --button-color-primary: #4a8d81;
+  --button-color-hover: #427c72;
+  --button-color-disabled: #737776;
+  --button-color-active: #eae46a;
+  --button-color-shadow: #0000004d;
+  --button-text-color-primary: #ffffff;
+
+}
+
 .button {
   padding: 5px 15px;
   border: none;
   border-radius: 3px;
-  background-color: #4a8d81;
-  color: #fff;
+  background-color: var(--button-color-primary);
+  color: var(--button-text-color-primary);
   transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
-  box-shadow: inset 0 0 5px 0 #0000004d;
+  box-shadow: inset 0 0 5px 0 var(--button-color-shadow);
   font-size: 16px
 }
 
 .button:hover {
-  background-color: #427c72;
+  background-color: var(--button-color-hover);
   opacity: 1;
-  /* box-shadow: 1px 0 5px #0000004d; */
 }
 
 .button:active {
   transform: translate(0, 5%);
   opacity: 0.9;
-
 }
 
 .button:disabled {
-  background-color: #737776;
+  background-color: var(--button-color-disabled);
   transform: none;
 }
+
 .button.active-filter {
-  border: 1px solid #eae46a;
+  border: 1px solid var(--button-color-active);
 }
