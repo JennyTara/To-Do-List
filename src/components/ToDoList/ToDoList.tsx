@@ -5,12 +5,6 @@ import './ToDoList.css';
 import { ITodoList } from '../../App';
 import { MY_SUPER_MEGA_MAGIC_NUMBER } from '../constants';
 
-
-// const initialTodos = [
-//   { index: 1, title: "First task", isCompleted: false },
-//   { index: 2, title: "Second task", isCompleted: false },
-//   { index: 3, title: "Third task", isCompleted: false }
-// ]
 interface ITodos {
   todos: ITodoList[];
   setTodos: React.Dispatch<React.SetStateAction<ITodoList[]>>;
@@ -26,7 +20,7 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
   const [inputValue, setInputValue] = useState<string>('');
   const [inputError, setInputError] = useState<boolean>(false);
   const [showTextEror, setShowTextError] = useState<string>('');
-  const [disableStatusButton, setDisableStatusButton] = useState<boolean>(storedTodos === null ? true : false);
+  const [disableStatusButton, setDisableStatusButton] = useState<boolean>(storedTodos.length === 0 ? true : false);
   const [filter, setFilter] = useState<Filters>(Filters.All);
   const [editingItem, setEditingItem] = useState<number | null>(null);
   const [inputValueEditing, setInputValueEditing] = useState<string>('');
@@ -80,7 +74,9 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
   function handleDelete(id: number): void {
     setTodos(todos.filter((item) => item.index !== id));
     if (todos.length === 1) {
+      setFilter(Filters.All)
       setDisableStatusButton(true);
+
     }
   }
 
@@ -113,44 +109,44 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
   }
   return (
     <>
-      <div className="add-item-wrapper">
+      <div className='add-item-wrapper'>
         <input
-          type="text"
+          type='text'
           value={inputValue}
           onChange={handleChangeInput}
           onKeyDown={handleSubmitInputByEnter}
           tabIndex={1}
-          className={inputError ? "add-item__input error" : "add-item__input"}
-          placeholder="Create a new ToDo..."
+          className={inputError ? 'add-item__input error' : 'add-item__input'}
+          placeholder='Create a new ToDo&hellip;'
         />
-        <Button title="add" className="button" onClick={addTask} />
+        <Button title='add' className='button' onClick={addTask} />
       </div>
-      <div className="input-error">{showTextEror}</div>
-      <div className="status-wrapper">
+      <div className='input-error'>{showTextEror}</div>
+      <div className='status-wrapper'>
         <Button
-          title="All"
+          title='All'
           className={
-            !!todos.length && filter === Filters.All ? "button active-filter" : "button"
+            !!todos.length && filter === Filters.All ? 'button active-filter' : 'button'
           }
           onClick={() => setFilter(Filters.All)}
           disabled={disableStatusButton}
         />
         <Button
-          title="Active"
-          className={filter === Filters.Active ? "button active-filter" : "button"}
+          title='Active'
+          className={!!todos.length && filter === Filters.Active ? 'button active-filter' : 'button'}
           onClick={() => setFilter(Filters.Active)}
           disabled={disableStatusButton}
         />
         <Button
-          title="Completed"
-          className={filter === Filters.Completed ? "button active-filter" : "button"}
+          title='Completed'
+          className={!!todos.length && filter === Filters.Completed ? 'button active-filter' : 'button'}
           onClick={() => setFilter(Filters.Completed)}
           disabled={disableStatusButton}
         />
       </div>
-      <div className="tasks">
+      <div className='tasks'>
         {!todos.length ? (
-          <div className="tasks__no-task">There is no task to do&hellip;</div>
+          <div className='tasks__no-task'>There is no task to do&hellip;</div>
         ) : (
           todos
             .filter((todo) => {
@@ -163,70 +159,70 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
               }
             })
             .map((todo) => (
-              <div key={`myToDo-${todo.index}`} className="tasks__item">
+              <div key={`myToDo-${todo.index}`} className='tasks__item'>
                 {editingItem === todo.index ? (
                   <>
-                    <div className="tasks__checkbox-text">
+                    <div className='tasks__checkbox-text'>
                       <input
-                        className="tasks__checkbox"
-                        type="checkbox"
+                        className='tasks__checkbox'
+                        type='checkbox'
                         checked={todo.isCompleted}
                         onChange={() => handleChangeCheckbox(todo.index)}
                       />
                       <input
                         className={
                           inputEditError
-                            ? "tasks__edit-input error"
-                            : "tasks__edit-input"
+                            ? 'tasks__edit-input error'
+                            : 'tasks__edit-input'
                         }
-                        type="text"
+                        type='text'
                         value={inputValueEditing}
                         onChange={handleChangeInputEditing}
                       />
                     </div>
-                    <div className="tasks-buttons">
+                    <div className='tasks-buttons'>
                       <Button
-                        title="Save"
+                        title='Save'
                         onClick={() => handleEditingSave(todo.index)}
-                        className="button"
+                        className='button'
                       />
                       <Button
-                        title="Cancel"
-                        className="button"
+                        title='Cancel'
+                        className='button'
                         onClick={() => setEditingItem(null)}
                       />
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="tasks__checkbox-text">
+                    <div className='tasks__checkbox-text'>
                       <input
-                        className="tasks__checkbox"
-                        type="checkbox"
+                        className='tasks__checkbox'
+                        type='checkbox'
                         checked={todo.isCompleted}
                         onChange={() => handleChangeCheckbox(todo.index)}
                       />
                       <div
                         className={
                           todo.isCompleted
-                            ? "tasks__text completed"
-                            : "tasks__text"
+                            ? 'tasks__text completed'
+                            : 'tasks__text'
                         }
                       >
                         {todo.title}
                       </div>
                     </div>
-                    <div className="tasks-buttons">
+                    <div className='tasks-buttons'>
                       <Button
-                        title="Edit"
+                        title='Edit'
                         onClick={() =>
                           handleEditingItem(todo.index, todo.title)
                         }
-                        className="button"
+                        className='button'
                       />
                       <Button
-                        title="Delete"
-                        className="button"
+                        title='Delete'
+                        className='button'
                         onClick={() => handleDelete(todo.index)}
                       />
                     </div>

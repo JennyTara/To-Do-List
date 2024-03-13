@@ -45,15 +45,18 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .status-wrapper .button {
   width: 115px;
+  flex-grow: 1;
 }
 
 .add-item-wrapper {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .add-item__input,
@@ -71,6 +74,9 @@
 
 .tasks__edit-input {
   height: 25px;
+  min-width: 0;
+  width: 100%;
+
 }
 
 .add-item__input:focus,
