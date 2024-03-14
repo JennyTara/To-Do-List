@@ -1,1 +1,1 @@
-export const MY_SUPER_MEGA_MAGIC_NUMBER = 150;
+export const MAX_ITEM_LENGTH = 150;

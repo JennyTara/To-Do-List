@@ -3,12 +3,12 @@ import { useState } from 'react';
 import Button from '../Button/Button';
 import './ToDoList.css';
 import { ITodoList } from '../../App';
-import { MY_SUPER_MEGA_MAGIC_NUMBER } from '../constants';
+import { MAX_ITEM_LENGTH } from '../constants';
+import Input from '../Button/Input/input';
 
 interface ITodos {
   todos: ITodoList[];
   setTodos: React.Dispatch<React.SetStateAction<ITodoList[]>>;
-  storedTodos:ITodoList[];
 }
 enum Filters {
   All = 'all',
@@ -16,18 +16,18 @@ enum Filters {
   Completed = 'completed',
 }
 
-export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
+export default function ToDoList({ todos, setTodos}: ITodos) {
   const [inputValue, setInputValue] = useState<string>('');
   const [inputError, setInputError] = useState<boolean>(false);
   const [showTextEror, setShowTextError] = useState<string>('');
-  const [disableStatusButton, setDisableStatusButton] = useState<boolean>(storedTodos.length === 0 ? true : false);
+  const [disableStatusButton, setDisableStatusButton] = useState<boolean>(todos.length == 0 ? true : false);
   const [filter, setFilter] = useState<Filters>(Filters.All);
   const [editingItem, setEditingItem] = useState<number | null>(null);
   const [inputValueEditing, setInputValueEditing] = useState<string>('');
   const [inputEditError, setInputEditError] = useState<boolean>(false);
 
   function addTask(): void {
-    if (inputValue.trim() !== '' && inputValue.length <= MY_SUPER_MEGA_MAGIC_NUMBER) {
+    if (inputValue.trim() !== '' && inputValue.length <= MAX_ITEM_LENGTH) {
       setTodos([
         ...todos,
         { index: Math.random(), title: inputValue, isCompleted: false },
@@ -92,7 +92,7 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
   }
 
   function handleEditingSave(id: number): void {
-    if (inputValueEditing.trim() !== '' && inputValueEditing.length <= MY_SUPER_MEGA_MAGIC_NUMBER) {
+    if (inputValueEditing.trim() !== '' && inputValueEditing.length <= MAX_ITEM_LENGTH) {
       setTodos(
         todos.map((todo) => {
           if (todo.index === id) {
@@ -107,10 +107,21 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
       setInputEditError(true);
     }
   }
+
+  function handleFilterTodos (todo: ITodoList): ITodoList[] | boolean {
+    switch (filter) {
+      case Filters.All:
+        return todos;
+      case Filters.Active:
+        return !todo.isCompleted;
+      case Filters.Completed:
+        return todo.isCompleted;
+    }
+  }
   return (
     <>
       <div className='add-item-wrapper'>
-        <input
+        <Input
           type='text'
           value={inputValue}
           onChange={handleChangeInput}
@@ -150,26 +161,20 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
         ) : (
           todos
             .filter((todo) => {
-              if (filter === Filters.All) {
-                return todos;
-              } else if (filter === Filters.Active) {
-                return !todo.isCompleted;
-              } else if (filter === Filters.Completed) {
-                return todo.isCompleted;
-              }
+              return handleFilterTodos(todo)
             })
             .map((todo) => (
               <div key={`myToDo-${todo.index}`} className='tasks__item'>
                 {editingItem === todo.index ? (
                   <>
                     <div className='tasks__checkbox-text'>
-                      <input
+                      <Input
                         className='tasks__checkbox'
                         type='checkbox'
                         checked={todo.isCompleted}
                         onChange={() => handleChangeCheckbox(todo.index)}
                       />
-                      <input
+                      <Input
                         className={
                           inputEditError
                             ? 'tasks__edit-input error'
@@ -196,7 +201,7 @@ export default function ToDoList({ todos, setTodos, storedTodos }: ITodos) {
                 ) : (
                   <>
                     <div className='tasks__checkbox-text'>
-                      <input
+                      <Input
                         className='tasks__checkbox'
                         type='checkbox'
                         checked={todo.isCompleted}

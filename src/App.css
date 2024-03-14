@@ -1,6 +1,15 @@
 :root {
   --todo-bgc-color: #66bdaf;
   --todo-title-color: #ffffff;
+  --button-color-primary: #4a8d81;
+  --button-color-hover: #427c72;
+  --button-color-disabled: #737776;
+  --button-color-active: #eae46a;
+  --button-color-shadow: #0000004d;
+  --button-text-color-primary: #ffffff;
+  --error-color-text: #b33e59;
+  --input-focus-color: #464242;
+  --text-completed-color: #636353;
 }
 
 .app-wrapper {

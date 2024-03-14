@@ -9,24 +9,18 @@ export interface ITodoList {
   isCompleted: boolean;
 }
 export default function App() {
-  const storedTodos = JSON.parse(localStorage.getItem('todos') || 'null');
-  const [todos, setTodos] = useState<ITodoList[]>(storedTodos.length === 0 ? [] : storedTodos)
+  const [todos, setTodos] = useState<ITodoList[]>(JSON.parse(localStorage.getItem("todos") || "[]"))
+
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
-  // useEffect(() => {
-  //   const storedTodos = JSON.parse(localStorage.getItem('todos') || 'null');
-  //   if (storedTodos) {
-  //     setTodos(storedTodos);
-  //   }
-  // }, []);
   return (
     <div className='app-wrapper'>
       <div className='app'>
         <div className='todo-title'>
           <h1>ToDo List</h1>
         </div>
-        <ToDoList todos={todos} setTodos={setTodos} storedTodos={storedTodos} />
+        <ToDoList todos={todos} setTodos={setTodos} />
       </div>
     </div>
   );
