@@ -1,7 +1,7 @@
 import React from 'react';
 type InputPropsTypes ={
-  className: string;
-  type: string;
+  className?: string;
+  type?: string;
   checked?: boolean;
   value?: string,
   onChange: (event: React.ChangeEvent<HTMLInputElement>)=> void;

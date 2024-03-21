@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Button from '../Button/Button';
 import './ToDoList.css';
 import { ITodoList } from '../../App';
-import { MAX_ITEM_LENGTH } from '../constants';
+import { MAX_ITEM_LENGTH, TEXT_ERRORS } from '../constants';
 import Input from '../Button/Input/input';
 
 interface ITodos {
@@ -18,13 +18,13 @@ enum Filters {
 
 export default function ToDoList({ todos, setTodos}: ITodos) {
   const [inputValue, setInputValue] = useState<string>('');
-  const [inputError, setInputError] = useState<boolean>(false);
+  const [isInputError, setIsInputError] = useState<boolean>(false);
   const [showTextEror, setShowTextError] = useState<string>('');
-  const [disableStatusButton, setDisableStatusButton] = useState<boolean>(todos.length == 0 ? true : false);
+  const [isDisableStatusButton, setIsDisableStatusButton] = useState<boolean>(todos.length == 0 ? true : false);
   const [filter, setFilter] = useState<Filters>(Filters.All);
   const [editingItem, setEditingItem] = useState<number | null>(null);
   const [inputValueEditing, setInputValueEditing] = useState<string>('');
-  const [inputEditError, setInputEditError] = useState<boolean>(false);
+  const [isInputEditError, setIsInputEditError] = useState<boolean>(false);
 
   function addTask(): void {
     if (inputValue.trim() !== '' && inputValue.length <= MAX_ITEM_LENGTH) {
@@ -33,14 +33,14 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
         { index: Math.random(), title: inputValue, isCompleted: false },
       ]);
       if (todos.length === 0) {
-        setDisableStatusButton(false);
+        setIsDisableStatusButton(false);
       }
     } else {
-      setInputError(true);
+      setIsInputError(true);
       if (inputValue.trim() === '') {
-        setShowTextError('*You must write something!');
+        setShowTextError(TEXT_ERRORS.blank);
       } else {
-        setShowTextError('*Your ToDo is too long, please shorten it!');
+        setShowTextError(TEXT_ERRORS.maxLength);
       }
     }
     setInputValue('');
@@ -55,7 +55,7 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
   }
 
   function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>): void {
-    setInputError(false);
+    setIsInputError(false);
     setShowTextError('');
     setInputValue(event.target.value);
   }
@@ -75,8 +75,7 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
     setTodos(todos.filter((item) => item.index !== id));
     if (todos.length === 1) {
       setFilter(Filters.All)
-      setDisableStatusButton(true);
-
+      setIsDisableStatusButton(true);
     }
   }
 
@@ -101,10 +100,10 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
           return todo;
         })
       );
-      setInputEditError(false);
+      setIsInputEditError(false);
       setEditingItem(null);
     } else {
-      setInputEditError(true);
+      setIsInputEditError(true);
     }
   }
 
@@ -116,6 +115,8 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
         return !todo.isCompleted;
       case Filters.Completed:
         return todo.isCompleted;
+      default:
+        return todos;
     }
   }
   return (
@@ -127,7 +128,7 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
           onChange={handleChangeInput}
           onKeyDown={handleSubmitInputByEnter}
           tabIndex={1}
-          className={inputError ? 'add-item__input error' : 'add-item__input'}
+          className={isInputError ? 'add-item__input error' : 'add-item__input'}
           placeholder='Create a new ToDo&hellip;'
         />
         <Button title='add' className='button' onClick={addTask} />
@@ -140,19 +141,19 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
             !!todos.length && filter === Filters.All ? 'button active-filter' : 'button'
           }
           onClick={() => setFilter(Filters.All)}
-          disabled={disableStatusButton}
+          disabled={isDisableStatusButton}
         />
         <Button
           title='Active'
           className={!!todos.length && filter === Filters.Active ? 'button active-filter' : 'button'}
           onClick={() => setFilter(Filters.Active)}
-          disabled={disableStatusButton}
+          disabled={isDisableStatusButton}
         />
         <Button
           title='Completed'
           className={!!todos.length && filter === Filters.Completed ? 'button active-filter' : 'button'}
           onClick={() => setFilter(Filters.Completed)}
-          disabled={disableStatusButton}
+          disabled={isDisableStatusButton}
         />
       </div>
       <div className='tasks'>
@@ -176,7 +177,7 @@ export default function ToDoList({ todos, setTodos}: ITodos) {
                       />
                       <Input
                         className={
-                          inputEditError
+                          isInputEditError
                             ? 'tasks__edit-input error'
                             : 'tasks__edit-input'
                         }
