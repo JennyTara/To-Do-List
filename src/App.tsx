@@ -9,7 +9,8 @@ export interface ITodoList {
   isCompleted: boolean;
 }
 export default function App() {
-  const [todos, setTodos] = useState<ITodoList[]>(JSON.parse(localStorage.getItem("todos") || "[]"))
+  const [todos, setTodos] = useState<ITodoList[]> (JSON.parse(localStorage.getItem("todos") || '') || [])
+
 
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
